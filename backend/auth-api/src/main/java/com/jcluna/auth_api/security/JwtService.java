@@ -59,4 +59,13 @@ public class JwtService {
         return expiration.before(new Date());
     }
 
+    public String extractEmail(String token) {
+        return Jwts.parser()
+                .verifyWith((SecretKey) getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
 }

@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     public String register(RegisterRequest request) {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
         if (user.isPresent()) {
-            throw new UserAlreadyExistException("User already exists");
+            throw new UserAlreadyExistException("No ha sido posible completar el registro");
         }
 
         User newUser = new User();
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(newUser);
 
-        return "User registered successfully";
+        return "Usuario registrado con éxito";
     }
 
     @Override
@@ -53,10 +53,10 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> user = userRepository.findByEmail(request.getEmail());
 
         if (user.isEmpty()) {
-            throw new InvalidCredentialsException("Invalid email or password");
+            throw new InvalidCredentialsException("Email o contraseña incorrectos");
         }
         if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-            throw new InvalidCredentialsException("Invalid email or password");
+            throw new InvalidCredentialsException("Email o contraseña incorrectos");
         }
         String token = jwtService.generateToken(user.get());
 
