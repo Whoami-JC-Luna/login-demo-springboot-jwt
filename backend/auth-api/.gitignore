@@ -34,3 +34,6 @@ build/
 
 ### Secrets ###
 src/main/resources/application.properties
+
+### Docker-Postgress ###
+docker-compose.yml
