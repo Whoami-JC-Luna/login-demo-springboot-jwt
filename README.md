@@ -6,7 +6,7 @@ Demo project showcasing secure authentication with Spring Boot and JWT, followin
 
 - **Backend** — Spring Boot 3, Spring Security, JWT
 - **Frontend** — React + Tailwind CSS
-- **Database** — H2 (embedded)
+- **Database** — PostgreSQL 17
 - **Deploy** — Railway (backend) · Vercel (frontend)
 
 ## Status
