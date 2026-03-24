@@ -24,8 +24,8 @@ public class RegisterRequest {
 
     @NotBlank(message = "La contraseña es obligatoria")
     @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#._\\-])[A-Za-z\\d@$!%*?&#._\\-]{8,}$",
-            message = "La contraseña debe tener mínimo 6 caracteres, una mayúscula, un número y un carácter especial"
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#._\\-])[A-Za-z\\d@$!%*?&#._\\-]{8,}$",
+            message = "La contraseña debe tener entre 8 y 20 caracteres, una minúscula, una mayúscula, un número y un carácter especial"
     )
     private String password;
 }
