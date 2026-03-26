@@ -21,7 +21,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class User implements UserDetails {   // Entity + Security Model through implement userDetails(Spring Security for Login)
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,6 +36,8 @@ public class User implements UserDetails {
     @CreationTimestamp
     private Instant createdAt;
 
+
+    // Define the users permissions.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
