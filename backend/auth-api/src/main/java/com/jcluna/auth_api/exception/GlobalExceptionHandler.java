@@ -45,13 +45,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(UnauthorizedQuoteAccessException.class)
-    public ResponseEntity<Map<String, String>> handleQuoteNotFoundException(QuoteNotFoundException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-
-    }
 
 
     @ExceptionHandler(Exception.class)
