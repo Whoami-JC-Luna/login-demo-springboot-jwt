@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class QuoteResponse {
 
-    private String message;
+    private String text;
     private String author;
 
 }
