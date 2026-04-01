@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface QuoteService {
 
-
+    // Get a random quote to show in the dashboard after login
     QuoteResponse getRandomQuote();
     Page<QuoteResponse> getAllQuotes(Pageable pageable);
     Page<QuoteResponse> searchByAuthor(String author, Pageable pageable);
