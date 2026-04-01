@@ -14,7 +14,6 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -48,6 +47,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    // SignatureAlreadyExist
+    @ExceptionHandler(SignatureAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleSignatureAlreadyExists(SignatureAlreadyExistException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    // SignatureNotFound
+    public ResponseEntity<Map<String, String>> handleSignatureNotFound(SignatureNotFoundException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 
 
     //500
