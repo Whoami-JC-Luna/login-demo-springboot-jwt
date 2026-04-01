@@ -8,6 +8,7 @@ import com.jcluna.auth_api.model.Quote;
 import com.jcluna.auth_api.model.User;
 import com.jcluna.auth_api.repository.QuoteRepository;
 import com.jcluna.auth_api.service.QuoteService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,15 +19,10 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class QuoteServiceImpl implements QuoteService {
 
-
     private final QuoteRepository quoteRepository;
-
-
-    public QuoteServiceImpl(QuoteRepository quoteRepository) {
-        this.quoteRepository = quoteRepository;
-    }
 
 
     @Override
@@ -79,7 +75,6 @@ public class QuoteServiceImpl implements QuoteService {
 
     // Returns 404 for both "not found" and "not owned" cases intentionally.
     // Avoids confirming resource existence to unauthorized users.
-
     @Override
     public QuoteResponse updateQuote(UUID id, QuoteRequest request, User user) {
         Quote quote = quoteRepository.findByIdAndUser(id, user)

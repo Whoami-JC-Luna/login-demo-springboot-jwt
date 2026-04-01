@@ -24,6 +24,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    // UserAlreadyExist
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<Map<String, String>> handleUserAlreadyExists(UserAlreadyExistException ex) {
         Map<String, String> error = new HashMap<>();
@@ -31,6 +32,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    // InvalidCredentials
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String, String>> handleInvalidCredentials(InvalidCredentialsException ex) {
         Map<String, String> error = new HashMap<>();
@@ -38,6 +40,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    // QuoteNotFound
     @ExceptionHandler(QuoteNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleQuoteNotFound(QuoteNotFoundException ex) {
         Map<String, String> error = new HashMap<>();
@@ -47,6 +50,7 @@ public class GlobalExceptionHandler {
 
 
 
+    //500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
         Map<String, String> error = new HashMap<>();

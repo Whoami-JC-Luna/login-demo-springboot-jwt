@@ -25,7 +25,7 @@ public class QuoteController {
     }
 
     @GetMapping("/random")
-    public ResponseEntity<QuoteResponse> getRandomQuote() {
+    public ResponseEntity<QuoteResponse> Rote() {
         return ResponseEntity.ok(quoteService.getRandomQuote());
     }
 
