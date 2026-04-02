@@ -29,7 +29,7 @@ public class QuoteController {
         return ResponseEntity.ok(quoteService.getRandomQuote());
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<Page<QuoteResponse>> getAllQuotes(Pageable pageable) {
         return ResponseEntity.ok(quoteService.getAllQuotes(pageable));
     }
