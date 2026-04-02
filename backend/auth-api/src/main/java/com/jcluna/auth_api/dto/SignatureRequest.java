@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SignatureRequest {
     @NotBlank(message = "No has insertado texto")
-    private String signature;
+    private String message;
     @NotBlank(message = "Se necesita un nombre para la firma")
     private String author;
 }

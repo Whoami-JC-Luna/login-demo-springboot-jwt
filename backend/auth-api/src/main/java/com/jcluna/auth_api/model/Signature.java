@@ -20,16 +20,16 @@ public class Signature {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column (name = "message")
-    private String signature;
-    @Column(name = "created_at", updatable = false)
+    @Column
+    private String message;
+    @Column(insertable = false, updatable = false)
     private Instant createdAt;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column
     private String author;
-    @Column(name = "updated_at")
+    @Column(insertable = false, updatable = false)
     private Instant updatedAt;
 
 }

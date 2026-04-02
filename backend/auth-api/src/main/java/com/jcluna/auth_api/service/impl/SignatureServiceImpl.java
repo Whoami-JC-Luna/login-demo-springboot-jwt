@@ -26,33 +26,41 @@ public class SignatureServiceImpl implements SignatureService {
     public SignatureResponse getMySignature(User user) {
         Signature signature = signatureRepository.findByUser(user)
                 .orElseThrow(() -> {
-                    log.error("Signature not found for user: {}", user.getId());
+                    log.warn("Signature not found for user: {}", user.getId());
                     return new SignatureNotFoundException("No se ha encontrado ninguna firma");
                 });
 
 
         return new SignatureResponse(
-                signature.getSignature(),
-                signature.getAuthor()
-        );
+                signature.getMessage(),
+                signature.getAuthor(),
+                signature.getId(),
+                signature.getCreatedAt(),
+                signature.getUpdatedAt());
+
     }
 
     @Override
-    public SignatureResponse createMySignature(SignatureRequest request, User user) {
+    public SignatureResponse addMySignature(SignatureRequest request, User user) {
         signatureRepository.findByUser(user)
                 .ifPresent(s -> {
-                    log.error("Signature already exist");
+                    log.warn("Signature already exist: {}", user.getId());
                     throw new SignatureAlreadyExistException("Ya tienes una firma");
                 });
 
         Signature signature = new Signature();
-        signature.setSignature(request.getSignature());
+        signature.setMessage(request.getMessage());
         signature.setAuthor(request.getAuthor());
         signature.setUser(user);
 
         Signature saved = signatureRepository.save(signature);
 
-        return new SignatureResponse(saved.getSignature(), saved.getAuthor());
+        return new SignatureResponse(
+                saved.getMessage(),
+                saved.getAuthor(),
+                saved.getId(),
+                saved.getCreatedAt(),
+                saved.getUpdatedAt());
     }
 
 
@@ -61,24 +69,28 @@ public class SignatureServiceImpl implements SignatureService {
         Signature signature = signatureRepository.findByUser(user)
 
                 .orElseThrow(() -> {
-                    log.error("Signature not found on update for user: {}", user.getId());
+                    log.warn("Signature not found on update for user: {}", user.getId());
                     return new SignatureNotFoundException("No se ha encontrado ninguna firma");
                 });
 
-        signature.setSignature(request.getSignature());
+        signature.setMessage(request.getMessage());
         signature.setAuthor(request.getAuthor());
 
         Signature saved = signatureRepository.save(signature);
 
-        return new SignatureResponse(saved.getSignature(), saved.getAuthor());
-
+        return new SignatureResponse(
+                saved.getMessage(),
+                saved.getAuthor(),
+                saved.getId(),
+                saved.getCreatedAt(),
+                saved.getUpdatedAt());
     }
 
     @Override
     public void deleteMySignature(User user) {
         Signature signature = signatureRepository.findByUser(user)
                 .orElseThrow(() -> {
-                    log.error("Signature not found on delete for user: {}", user.getId());
+                    log.warn("Signature not found on delete for user: {}", user.getId());
                     return new SignatureNotFoundException("No se ha encontrado ninguna firma");
                 });
 
@@ -90,7 +102,12 @@ public class SignatureServiceImpl implements SignatureService {
     @Override
     public Page<SignatureResponse> getAllSignature(Pageable pageable) {
         Page<Signature> signatures = signatureRepository.findAll(pageable);
-        return signatures.map(signature -> new SignatureResponse(signature.getSignature(), signature.getAuthor()));
+        return signatures.map(signature -> new SignatureResponse(
+                signature.getMessage(),
+                signature.getAuthor(),
+                signature.getId(),
+                signature.getCreatedAt(),
+                signature.getUpdatedAt()));
     }
 
 

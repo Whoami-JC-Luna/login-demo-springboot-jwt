@@ -12,7 +12,7 @@ public interface SignatureService {
     // Get the user's signature after login to show it in the dashboard if it exists
     SignatureResponse getMySignature(User user);
 
-    SignatureResponse createMySignature(SignatureRequest request, User user);
+    SignatureResponse addMySignature(SignatureRequest request, User user);
 
     SignatureResponse updateMySignature(SignatureRequest request, User user);
 
