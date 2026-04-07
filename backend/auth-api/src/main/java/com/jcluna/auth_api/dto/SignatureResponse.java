@@ -10,9 +10,9 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class SignatureResponse {
+    private UUID id;
     private String message;
     private String author;
-    private UUID id;
     private Instant createdAt;
     private Instant updatedAt;
 

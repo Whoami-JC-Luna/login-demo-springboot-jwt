@@ -19,6 +19,6 @@ public interface SignatureService {
     void deleteMySignature(User user);
 
     // Get all signatures to display them globally to users.
-    Page<SignatureResponse> getAllSignature(Pageable pageable);
+    Page<SignatureResponse> getAllSignatures(Pageable pageable);
 
 }

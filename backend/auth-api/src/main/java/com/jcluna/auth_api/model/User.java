@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +32,7 @@ public class User implements UserDetails {   // Entity + Security Model through 
     @Column(nullable = false)
     private String password;
     private String role;
-    @CreationTimestamp
+    @Column(insertable = false, updatable = false)
     private Instant createdAt;
 
 
@@ -43,6 +42,7 @@ public class User implements UserDetails {   // Entity + Security Model through 
         return List.of(new SimpleGrantedAuthority(role));
     }
 
+    // Assign email as a getUsername
     @Override
     public String getUsername() {
         return email;

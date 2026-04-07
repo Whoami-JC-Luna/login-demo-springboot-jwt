@@ -2,6 +2,7 @@ package com.jcluna.auth_api.security;
 
 
 import com.jcluna.auth_api.model.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +16,8 @@ import java.util.Date;
 @Service
 public class JwtService {
 
+    // JWT signed with HMAC-SHA256. Secret loaded from environment, never hardcoded (OWASP A04:2025 - Cryptographic Failures)
+
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -23,9 +26,20 @@ public class JwtService {
     private long expiration;
 
 
-    private Key getSigningKey() {
+
+    // Secret decoded from Base64 and used to sign/verify JWT tokens (HMAC-SHA256)
+    private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    // Parses and verifies the JWT token. Single entry point to avoid duplicate parsing.
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public String generateToken(User user) {
@@ -38,34 +52,15 @@ public class JwtService {
     }
 
     public boolean validateToken(String token, String email) {
-        String tokenEmail = Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-
-        return tokenEmail.equals(email) && !isTokenExpired(token);
+        return getClaims(token).getSubject().equals(email) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
-        Date expiration = Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration();
-
-        return expiration.before(new Date());
+        return getClaims(token).getExpiration().before(new Date());
     }
 
     public String extractEmail(String token) {
-        return Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+        return getClaims(token).getSubject();
     }
 
 }

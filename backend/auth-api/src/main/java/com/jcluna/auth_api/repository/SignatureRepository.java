@@ -14,6 +14,4 @@ public interface SignatureRepository extends JpaRepository<Signature, UUID> {
 
     Optional<Signature> findByUser(User user);
 
-
-
 }

@@ -6,17 +6,18 @@ import com.jcluna.auth_api.dto.LoginRequest;
 import com.jcluna.auth_api.dto.RegisterRequest;
 import com.jcluna.auth_api.service.AuthService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
 
+    private final AuthService authService;
 
     @PostMapping("/register")
     public String register(@Valid @RequestBody RegisterRequest request) {
@@ -25,9 +26,8 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest loginRequest) {
+    public AuthResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
-
 
 }

@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuoteRequest {
-    @NotBlank(message = "No has insertado texto ")
+    @NotBlank(message = "No has insertado ninguna frase ")
     private String text;
-    @NotBlank(message = "Se necesita un Autor")
+    @NotBlank(message = "Se necesita un autor")
     private String author;
 }

@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     // SignatureNotFound
-    @ExceptionHandler
+    @ExceptionHandler(SignatureNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleSignatureNotFound(SignatureNotFoundException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());

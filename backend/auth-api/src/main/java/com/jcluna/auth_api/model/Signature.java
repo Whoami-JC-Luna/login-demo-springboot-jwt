@@ -20,15 +20,22 @@ public class Signature {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column
+
+    @Column(nullable = false)
     private String message;
+
+    // Managed by the database (DEFAULT now()). Hibernate must not interfere.
     @Column(insertable = false, updatable = false)
     private Instant createdAt;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @Column
+
+    @Column(nullable = false)
     private String author;
+
+    // Updated automatically by the database on every row modification via trigger.
     @Column(insertable = false, updatable = false)
     private Instant updatedAt;
 

@@ -52,8 +52,8 @@ public class SignatureController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<SignatureResponse>> getAllSignature(Pageable pageable){
-        return ResponseEntity.ok(signatureService.getAllSignature(pageable));
+    public ResponseEntity<Page<SignatureResponse>> getAllSignatures(Pageable pageable){
+        return ResponseEntity.ok(signatureService.getAllSignatures(pageable));
     }
 
 
