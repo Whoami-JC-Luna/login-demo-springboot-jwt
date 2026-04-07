@@ -5,6 +5,7 @@ import com.jcluna.auth_api.dto.QuoteResponse;
 import com.jcluna.auth_api.model.User;
 import com.jcluna.auth_api.service.QuoteService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -12,28 +13,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/quotes")
 public class QuoteController {
 
+    // Constructor injection preferred over @Autowired: explicit dependencies, immutability and easier testing.
+    // Lombok @RequiredArgsConstructor generates the constructor automatically for all final fields.
     private final QuoteService quoteService;
 
-    public QuoteController(QuoteService quoteService) {
-        this.quoteService = quoteService;
-    }
+
+
 
     @GetMapping("/random")
-    public ResponseEntity<QuoteResponse> Rote() {
+    public ResponseEntity<QuoteResponse> getRandomQuote() {
         return ResponseEntity.ok(quoteService.getRandomQuote());
     }
 
-    @GetMapping("")
+    @GetMapping("/me")
+    public ResponseEntity <List<QuoteResponse>> getMyQuotes(@AuthenticationPrincipal User user){
+        return ResponseEntity.ok(quoteService.getMyQuote(user));
+    }
+
+
+    @GetMapping()
     public ResponseEntity<Page<QuoteResponse>> getAllQuotes(Pageable pageable) {
         return ResponseEntity.ok(quoteService.getAllQuotes(pageable));
     }
 
+
+    // Single endpoint handles both search types. Returns 400 if no valid param is provided.
     @GetMapping("/search")
     public ResponseEntity<Page<QuoteResponse>> searchByAuthor(
             @RequestParam(required = false) String author,

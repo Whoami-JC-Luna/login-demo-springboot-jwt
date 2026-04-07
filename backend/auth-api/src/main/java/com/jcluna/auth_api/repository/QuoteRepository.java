@@ -10,11 +10,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface QuoteRepository extends JpaRepository<Quote, UUID> {
+
+
+     List<Quote> findByUser(User user);
+
 
     //To verify ownership before delete
     Optional<Quote> findByIdAndUser(UUID id, User user);

@@ -2,6 +2,7 @@ package com.jcluna.auth_api.security;
 
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
 
@@ -31,11 +33,7 @@ public class SecurityConfig {
     }
 
 
-    @Autowired
-    private JwtAuthFilter jwtAuthFilter;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,8 +41,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**","/error").permitAll()
+
+                        // Signatures are publicly readable: they serve as a public guestbook on the landing page.
                         .requestMatchers(HttpMethod.GET, "/signature").permitAll()
-                        .requestMatchers("/quotes/random", "/quotes/all", "/quotes/search").hasAnyRole("GUEST","USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/quotes", "/quotes/random", "/quotes/search").hasAnyRole("GUEST","USER", "ADMIN")
                         .requestMatchers("/quotes/**", "/signature/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )

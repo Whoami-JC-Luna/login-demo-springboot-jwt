@@ -6,12 +6,12 @@ import com.jcluna.auth_api.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
 
 public interface QuoteService {
 
-    // Get a random quote to show in the dashboard after login
     QuoteResponse getRandomQuote();
     Page<QuoteResponse> getAllQuotes(Pageable pageable);
     Page<QuoteResponse> searchByAuthor(String author, Pageable pageable);
@@ -19,6 +19,5 @@ public interface QuoteService {
     QuoteResponse addQuote(QuoteRequest request, User user);
     QuoteResponse updateQuote(UUID id, QuoteRequest request, User user);
     void deleteQuote(UUID id, User user);
-
-
+    List<QuoteResponse> getMyQuote(User user);
 }
