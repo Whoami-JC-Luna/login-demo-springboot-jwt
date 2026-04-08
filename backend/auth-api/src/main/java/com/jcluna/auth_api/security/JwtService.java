@@ -3,6 +3,7 @@ package com.jcluna.auth_api.security;
 
 import com.jcluna.auth_api.model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -51,12 +52,18 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean validateToken(String token, String email) {
-        return getClaims(token).getSubject().equals(email) && !isTokenExpired(token);
-    }
-
     private boolean isTokenExpired(String token) {
         return getClaims(token).getExpiration().before(new Date());
+    }
+
+    public boolean validateToken(String token, String email) {
+        try {
+            return getClaims(token).getSubject().equals(email) && !isTokenExpired(token);
+        }
+        // Expired token is not valid. Return false instead of propagating the exception.
+        catch (ExpiredJwtException e) {
+            return false;
+        }
     }
 
     public String extractEmail(String token) {
