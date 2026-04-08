@@ -6,6 +6,7 @@ import com.jcluna.auth_api.dto.RegisterRequest;
 import com.jcluna.auth_api.exception.InvalidCredentialsException;
 import com.jcluna.auth_api.exception.UserAlreadyExistException;
 import com.jcluna.auth_api.model.User;
+import com.jcluna.auth_api.model.enums.Role;
 import com.jcluna.auth_api.repository.UserRepository;
 import com.jcluna.auth_api.security.JwtService;
 import com.jcluna.auth_api.service.AuthService;
@@ -44,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
 
         // Role assigned server-side only. Never trust client input for role assignment (OWASP A01:2025 - Broken Access Control)
-        newUser.setRole("ROLE_USER");
+        newUser.setRole(Role.ROLE_USER);
 
         userRepository.save(newUser);
 

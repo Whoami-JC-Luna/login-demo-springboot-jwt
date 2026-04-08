@@ -1,5 +1,6 @@
 package com.jcluna.auth_api.model;
 
+import com.jcluna.auth_api.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,11 @@ public class User implements UserDetails {   // Entity + Security Model through 
     private String userName;
     @Column(nullable = false)
     private String password;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @Column(insertable = false, updatable = false)
     private Instant createdAt;
 
@@ -39,7 +44,7 @@ public class User implements UserDetails {   // Entity + Security Model through 
     // Define the users permissions.
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     // Assign email as a getUsername
