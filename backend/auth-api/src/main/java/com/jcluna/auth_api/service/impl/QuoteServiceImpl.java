@@ -5,7 +5,6 @@ import com.jcluna.auth_api.dto.QuoteRequest;
 import com.jcluna.auth_api.dto.QuoteResponse;
 import com.jcluna.auth_api.exception.QuoteNotFoundException;
 import com.jcluna.auth_api.mapper.QuoteMapper;
-import com.jcluna.auth_api.mapper.SignatureMapper;
 import com.jcluna.auth_api.model.Quote;
 import com.jcluna.auth_api.model.User;
 import com.jcluna.auth_api.repository.QuoteRepository;
@@ -30,7 +29,6 @@ public class QuoteServiceImpl implements QuoteService {
 
     // Mapper injection
     private final QuoteMapper quoteMapper;
-    private final SignatureMapper signatureMapper;
 
 
     @Override
