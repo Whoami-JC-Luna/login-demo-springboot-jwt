@@ -2,7 +2,6 @@ package com.jcluna.auth_api.service;
 
 import com.jcluna.auth_api.dto.SignatureRequest;
 import com.jcluna.auth_api.dto.SignatureResponse;
-import com.jcluna.auth_api.model.Quote;
 import com.jcluna.auth_api.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

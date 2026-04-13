@@ -33,14 +33,13 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Override
     public QuoteResponse getRandomQuote() {
-        List<Quote> quotes = quoteRepository.findAll();
-        if (quotes.isEmpty()) {
-            // Random needs at least one quote to work, unlike listings that can return empty.
-            // Empty DB is unexpected since quotes are preloaded by Flyway, so I warn.
-            log.warn("No quotes available to return a random quote");
-            throw new QuoteNotFoundException("No se encontró el recurso");
-        }
-        Quote random = quotes.get(new Random().nextInt(quotes.size()));
+        Quote random = quoteRepository.findRandomQuote()
+                .orElseThrow(() -> {
+                    // Random needs at least one quote to work, unlike listings that can return empty.
+                    // Empty DB is unexpected since quotes are preloaded by Flyway, so I warn.
+                    log.warn("No quotes available to return a random quote");
+                    return new QuoteNotFoundException("No se encontró el recurso");
+                });
         return quoteMapper.toResponse(random);
     }
 
