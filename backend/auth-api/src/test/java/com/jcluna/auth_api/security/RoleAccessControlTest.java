@@ -43,21 +43,21 @@ public class RoleAccessControlTest {
 
             User userUser = new User();
             userUser.setEmail("user@test.com");
-            userUser.setUserName("user");
+            userUser.setNickname("user");
             userUser.setPassword(passwordEncoder.encode("password"));
             userUser.setRole(Role.ROLE_USER);
             userRepository.save(userUser);
 
             User adminUser = new User();
             adminUser.setEmail("admin@test.com");
-            adminUser.setUserName("admin");
+            adminUser.setNickname("admin");
             adminUser.setPassword(passwordEncoder.encode("password"));
             adminUser.setRole(Role.ROLE_ADMIN);
             userRepository.save(adminUser);
 
             User guestUser = new User();
             guestUser.setEmail("guest@test.com");
-            guestUser.setUserName("guest");
+            guestUser.setNickname("guest");
             guestUser.setPassword(passwordEncoder.encode("password"));
             guestUser.setRole(Role.ROLE_GUEST);
             userRepository.save(guestUser);

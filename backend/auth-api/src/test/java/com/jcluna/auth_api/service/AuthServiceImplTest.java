@@ -51,7 +51,7 @@ public class AuthServiceImplTest {
     void setUp() {
         testUser = new User();
         testUser.setEmail("test@test.com");
-        testUser.setUserName("testuser");
+        testUser.setNickname("testuser");
         testUser.setPassword("hashedPassword");
         testUser.setRole(Role.ROLE_USER);
 
