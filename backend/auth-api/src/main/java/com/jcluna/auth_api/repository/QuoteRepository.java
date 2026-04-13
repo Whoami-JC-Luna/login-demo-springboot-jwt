@@ -20,7 +20,6 @@ public interface QuoteRepository extends JpaRepository<Quote, UUID> {
 
      List<Quote> findByUser(User user);
 
-
     //To verify ownership before delete
     Optional<Quote> findByIdAndUser(UUID id, User user);
 
@@ -34,4 +33,10 @@ public interface QuoteRepository extends JpaRepository<Quote, UUID> {
             countQuery = "SELECT count(*) FROM quotes WHERE unaccent(lower(text)) LIKE '%' || unaccent(lower(:text)) || '%'",
             nativeQuery = true)
     Page<Quote> findByTextContainingIgnoreCase(@Param("text") String text, Pageable pageable);
+
+    // Native query delegates random selection to the database, avoiding loading all quotes into memory
+    @Query(value = "SELECT * FROM quotes ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    Optional<Quote> findRandomQuote();
+
+
 }
