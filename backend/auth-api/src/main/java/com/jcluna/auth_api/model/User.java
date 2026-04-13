@@ -28,8 +28,8 @@ public class User implements UserDetails {   // Entity + Security Model through 
     private UUID id;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(unique = true, nullable = false)
-    private String userName;
+    @Column(name = "user_name", unique = true, nullable = false)
+    private String nickname;
     @Column(nullable = false)
     private String password;
 

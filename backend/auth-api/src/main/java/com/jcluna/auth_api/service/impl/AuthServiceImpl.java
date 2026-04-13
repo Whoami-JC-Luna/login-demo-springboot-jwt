@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
         User newUser = new User();
         newUser.setEmail(request.getEmail());
-        newUser.setUserName(request.getUserName());
+        newUser.setNickname(request.getUserName());
 
         // Password hashed with BCrypt before persistence (OWASP A04:2025 - Cryptographic Failures)
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -69,6 +69,6 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtService.generateToken(authenticatedUser);
 
 
-        return new AuthResponse(token, authenticatedUser.getUsername(), authenticatedUser.getEmail());
+        return new AuthResponse(token, authenticatedUser.getNickname(), authenticatedUser.getEmail());
     }
 }
