@@ -18,7 +18,10 @@ public class RegisterRequest {
 
 
     @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Formato de email no válido")
+    @Email(
+            regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "Formato de email no válido"
+    )
     private String email;
 
 
