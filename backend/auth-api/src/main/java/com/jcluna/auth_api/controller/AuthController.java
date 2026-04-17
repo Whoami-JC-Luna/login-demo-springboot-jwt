@@ -7,12 +7,10 @@ import com.jcluna.auth_api.dto.RegisterRequest;
 import com.jcluna.auth_api.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {
 
