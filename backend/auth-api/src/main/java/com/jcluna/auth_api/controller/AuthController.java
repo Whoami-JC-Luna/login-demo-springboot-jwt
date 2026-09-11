@@ -7,7 +7,9 @@ import com.jcluna.auth_api.dto.RegisterRequest;
 import com.jcluna.auth_api.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +20,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody RegisterRequest request) {
-      return authService.register(request);
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody RegisterRequest request) {
+        String message = authService.register(request);
+        return ResponseEntity.ok(Map.of("message", message));
     }
 
 
