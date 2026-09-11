@@ -68,7 +68,7 @@ public class QuoteServiceImplTest {
     @Test
     void getRandomQuote_shouldThrowException_whenNoQuotesAvailable() {
         // Given
-        when(quoteRepository.findAll()).thenReturn(Collections.emptyList());
+        when(quoteRepository.findRandomQuote()).thenReturn(Optional.empty());
 
         // Then
         assertThrows(QuoteNotFoundException.class, () -> quoteService.getRandomQuote());
@@ -78,7 +78,7 @@ public class QuoteServiceImplTest {
     @Test
     void getRandomQuote_shouldReturnQuote_whenQuotesAvailable() {
         // Given
-        when(quoteRepository.findAll()).thenReturn(List.of(testQuote));
+        when(quoteRepository.findRandomQuote()).thenReturn(Optional.of(testQuote));
         when(quoteMapper.toResponse(testQuote)).thenReturn(testQuoteResponse);
 
         // When

@@ -101,7 +101,7 @@ public class AuthControllerTest {
     @Test
     void login_shouldReturn200_whenCredentialsAreValid() throws Exception {
         // Given
-        AuthResponse authResponse = new AuthResponse("mocked-token", "testuser", "test@test.com");
+        AuthResponse authResponse = new AuthResponse("mocked-token", "testuser", "test@test.com", "ROLE_USER");
         when(authService.login(any())).thenReturn(authResponse);
 
         // When & Then
