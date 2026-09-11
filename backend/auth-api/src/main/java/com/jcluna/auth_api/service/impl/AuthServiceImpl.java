@@ -11,11 +11,13 @@ import com.jcluna.auth_api.repository.UserRepository;
 import com.jcluna.auth_api.security.JwtService;
 import com.jcluna.auth_api.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -33,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
         // Generic error message to prevent user enumeration (OWASP A07:2025 - Authentication Failures)
         if (user.isPresent()) {
+            log.warn("Registration attempt with existing email: {}", request.getEmail());
             throw new UserAlreadyExistException("No ha sido posible completar el registro");
         }
 
@@ -48,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
         newUser.setRole(Role.ROLE_USER);
 
         userRepository.save(newUser);
-
+        log.info("New user registered: {}", newUser.getEmail());
         return "Usuario registrado con éxito";
     }
 
@@ -58,15 +61,19 @@ public class AuthServiceImpl implements AuthService {
 
         // Generic error message to prevent user enumeration (OWASP A07:2025 - Authentication Failures)
         if (user.isEmpty()) {
+            log.warn("Login attempt with unknown email: {}", request.getEmail());
             throw new InvalidCredentialsException("Email o contraseña incorrectos");
         }
         if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
+            log.warn("Login attempt with wrong password for email: {}", request.getEmail());
             throw new InvalidCredentialsException("Email o contraseña incorrectos");
         }
 
         // Extract authenticated user to avoid multiple get() calls and improve readability
         User authenticatedUser = user.get();
         String token = jwtService.generateToken(authenticatedUser);
+
+        log.info("User logged in: {}", authenticatedUser.getEmail());
 
 
         return new AuthResponse(token, authenticatedUser.getNickname(), authenticatedUser.getEmail(), authenticatedUser.getRole().name());
