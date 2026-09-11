@@ -61,6 +61,7 @@ Roles are assigned server-side only — the client cannot choose or escalate its
 | Boilerplate | Lombok | Reduces repetitive code (@RequiredArgsConstructor, etc.) |
 | Testing | JUnit 5 + Mockito + H2 | Fast isolated tests without requiring a live database |
 | Build | Maven | Standard Java build tool |
+| CI/CD | GitHub Actions | Runs `mvn verify` on every push and pull request. This catches build and test errors before the code is merged |
 
 *Frontend (in progress): React + Tailwind CSS*
 *Deployment (in progress): VPS with Nginx (backend) · Vercel (frontend)*
@@ -175,6 +176,10 @@ No maximum length is enforced — aligned with OWASP and NIST guidelines, which 
 ### Stateless sessions
 
 - No server-side sessions. The API is fully stateless — all authentication context comes from the JWT on each request.
+
+### No auto-login on registration
+
+`/auth/register` returns a confirmation message, not a JWT token. After registering, the user must log in through `/auth/login`. This keeps registration and login as two separate steps, and avoids giving a session token right after the account is created.
 
 ### JWT role lookup
 
@@ -298,6 +303,14 @@ The `validateToken()` method did not catch `ExpiredJwtException`. When a user se
 **Fix:** a specific `catch` for `ExpiredJwtException` that returns `false` instead of propagating the exception. The specific exception type was intentional — catching a generic `Exception` would hide other real errors.
 
 *This is a concrete example of tests catching bugs that manual Postman testing missed.*
+
+### Continuous Integration
+
+A GitHub Actions workflow runs `mvn verify` every time there is a push or pull request to `main` or `develop`. This gives fast feedback before the code is merged, instead of depending on someone remembering to run the tests locally.
+
+### Continuous Integration catching outdated tests
+
+As the project grew, two unit tests became outdated: one still used a repository method that no longer existed, and another expected an old response format that had changed. To catch this kind of problem earlier, the CI workflow above was added. On its first run, it immediately found both outdated tests, which were then fixed. Now, CI catches this type of problem automatically before it reaches `develop`.
 
 ---
 
