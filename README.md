@@ -71,13 +71,39 @@ Roles are assigned server-side only — the client cannot choose or escalate its
 
 The project follows a standard layered architecture:
 
-```
-controller → service (interface + impl) → repository → database
-               ↕
-        dto / mapper / model
+```mermaid
+flowchart TD
+    Client(["Client — HTTP / REST"])
+    Filter["<b>Spring Security</b><br/>JwtAuthFilter — validates JWT, loads role"]
+    Controller["<b>Controller</b><br/>Auth · Quote · Signature"]
+    Service["<b>Service</b> (interface)<br/>implemented in service/impl"]
+    Repo["<b>Repository</b><br/>Spring Data JPA"]
+    DB[("<b>PostgreSQL 17</b><br/>Flyway migrations")]
+    Handler["<b>GlobalExceptionHandler</b><br/>@RestControllerAdvice"]
+
+    subgraph DATA["dto / mapper / model"]
+        DTO["DTO<br/>Request / Response"]
+        Mapper["Mapper<br/>MapStruct"]
+        Model["Model<br/>JPA entities"]
+        DTO <--> Mapper <--> Model
+    end
+
+    Client --> Filter --> Controller --> Service --> Repo --> DB
+    Controller -.- DTO
+    Service -.- Mapper
+    Repo -.- Model
+    Service -. throws .-> Handler
 ```
 
-Each layer has a single responsibility. Controllers handle HTTP, services handle business logic, and repositories handle data access.
+Each layer has a single responsibility:
+
+- **Security** — `JwtAuthFilter` intercepts every request before it reaches a controller, validates the token and loads the user's current role from the database.
+- **Controllers** handle HTTP and work only with DTOs.
+- **Services** handle business logic, defined as interfaces and implemented in `service/impl`.
+- **Repositories** handle data access through Spring Data JPA (with native queries where PostgreSQL-specific functions are needed).
+- **GlobalExceptionHandler** turns custom exceptions into consistent HTTP error responses.
+
+Mappers exist for `Quote` and `Signature`. `AuthResponse` is built directly in `AuthServiceImpl`, since it combines the token with user data and does not map one entity.
 
 ### Why interfaces for services?
 
