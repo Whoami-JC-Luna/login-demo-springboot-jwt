@@ -16,9 +16,8 @@
 - [11. Search Feature](#11-search-feature)
 - [12. Testing](#12-testing)
 - [13. Known Issues & Dependencies](#13-known-issues--dependencies)
-- [14. Running Locally](#14-running-locally)
-- [15. Project Status](#15-project-status)
-- [16. Author](#16-author)
+- [14. Project Status](#14-project-status)
+- [15. Author](#15-author)
 
 ---
 
@@ -336,31 +335,7 @@ The JWT filter queries the database on every authenticated request to retrieve t
 
 ---
 
-## 14. Running Locally
-
-**Requirements:** Java 17, Maven, PostgreSQL 17
-
-1. Clone the repository
-2. Copy `application.properties.example` to `application.properties` and fill in your database credentials and JWT secret
-3. Start PostgreSQL and create the database
-4. Run the application:
-
-```bash
-cd backend/auth-api
-mvn spring-boot:run
-```
-
-Flyway will apply all migrations automatically on startup. This includes creating the admin and guest demo users.
-
-**Optional:** a `docker-compose.yml.example` is included if you prefer to run PostgreSQL in a container:
-
-```bash
-docker-compose up -d
-```
-
----
-
-## 15. Project Status
+## 14. Project Status
 
 | Part | Status |
 |---|---|
@@ -371,7 +346,7 @@ docker-compose up -d
 
 ---
 
-## 16. Author
+## 15. Author
 
 **JC Luna**
 [github.com/Whoami-JC-Luna](https://github.com/Whoami-JC-Luna)
