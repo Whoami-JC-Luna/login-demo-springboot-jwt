@@ -63,7 +63,7 @@ Roles are assigned server-side only — the client cannot choose or escalate its
 | CI/CD | GitHub Actions | Runs `mvn verify` on every push and pull request. This catches build and test errors before the code is merged |
 
 *Frontend (in progress): React + Tailwind CSS*
-*Deployment (in progress): VPS with Nginx (backend) · Vercel (frontend)*
+*Deployment (in progress): VPS with Nginx*
 
 ---
 
@@ -342,7 +342,7 @@ The JWT filter queries the database on every authenticated request to retrieve t
 | Backend API | Done |
 | Test suite | Done |
 | Frontend (React + Tailwind) | In development |
-| Deployment (VPS + Vercel) | In development |
+| Deployment (VPS) | In development |
 
 ---
 
