@@ -220,7 +220,8 @@ The JWT filter queries the database on every request to retrieve the user's curr
 | A03 — Software Supply Chain Failures | Dependency vulnerability GHSA-72hv-8253-57qq identified, evaluated, and documented. Impact assessed as low (see Known Issues section). |
 | A04 — Cryptographic Failures | Passwords hashed with BCrypt. JWT signed with HMAC-SHA256. Secret key excluded from repository. |
 | A07 — Authentication Failures | Generic error messages on login and registration. No session state on server. Token expiration enforced. |
-| A09 — Security Logging & Alerting Failures | Detailed internal logs for all critical operations. Generic messages returned to the client — internal details remain server-side only. |
+| A09 — Security Logging & Alerting Failures | Detailed internal logs for all critical operations, kept server-side only. |
+| A10 — Mishandling of Exceptional Conditions | Exceptions handled centrally by `GlobalExceptionHandler`. Unhandled errors return a generic `500` message — no stack traces or internal details reach the client. |
 
 *Logging criteria applied consistently: `log.warn` for expected business situations (404, 409). `log.error` reserved for unexpected system failures. Internal log detail never exposed to the client.*
 
